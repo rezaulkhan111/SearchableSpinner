@@ -163,5 +163,7 @@ class SearchableSpinner : androidx.appcompat.widget.AppCompatSpinner, View.OnTou
 
     fun setSearchBoxBackground(background: Drawable) {
         mSearchViewBackground = background
+        if (searchDialog.isVisible) searchDialog.dismiss()
+        init()
     }
 }
