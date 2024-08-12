@@ -26,7 +26,8 @@ import android.view.View
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 
-class SearchableSpinner : androidx.appcompat.widget.AppCompatSpinner, View.OnTouchListener, OnSearchableItemClick<Any?> {
+class SearchableSpinner : androidx.appcompat.widget.AppCompatSpinner, View.OnTouchListener,
+    OnSearchableItemClick<Any?> {
 
     private lateinit var searchDialog: SearchableSpinnerDialog
     private val mContext: Context
@@ -34,6 +35,7 @@ class SearchableSpinner : androidx.appcompat.widget.AppCompatSpinner, View.OnTou
     private var mCloseText: String? = null
     private var mItems: MutableList<Any?> = mutableListOf(null)
     private var mDialogBackground: Drawable? = null
+    private var mSearchViewBackground: Drawable? = null
     private var mCustomDialogAdapter: ArrayAdapter<*>? = null
     var onSearchableItemClick: OnSearchableItemClick<Any?>? = null
     var showHint: Boolean = false
@@ -49,7 +51,11 @@ class SearchableSpinner : androidx.appcompat.widget.AppCompatSpinner, View.OnTou
         init()
     }
 
-    constructor (context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+    constructor (context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    ) {
         this.mContext = context
         setAttributes(context, attrs)
         init()
@@ -97,7 +103,12 @@ class SearchableSpinner : androidx.appcompat.widget.AppCompatSpinner, View.OnTou
     }
 
     private fun init() {
-        searchDialog = SearchableSpinnerDialog.getInstance(mItems, dialogBackground = mDialogBackground, customAdapter = mCustomDialogAdapter)
+        searchDialog = SearchableSpinnerDialog.getInstance(
+            mItems,
+            dialogBackground = mDialogBackground,
+            customAdapter = mCustomDialogAdapter,
+            searchViewBackground = mSearchViewBackground
+        )
         searchDialog.setTitle(mDialogTitle)
         searchDialog.setDismissText(mCloseText)
         searchDialog.onSearchableItemClick = this
@@ -111,8 +122,11 @@ class SearchableSpinner : androidx.appcompat.widget.AppCompatSpinner, View.OnTou
         for (i in 0 until attributes.indexCount) {
             when (val attr = attributes.getIndex(i)) {
                 R.styleable.SearchableSpinner_closeText -> mCloseText = attributes.getString(attr)
-                R.styleable.SearchableSpinner_dialogTitle -> mDialogTitle = attributes.getString(attr)
-                R.styleable.SearchableSpinner_showHint -> showHint = attributes.getBoolean(attr, false)
+                R.styleable.SearchableSpinner_dialogTitle -> mDialogTitle =
+                    attributes.getString(attr)
+
+                R.styleable.SearchableSpinner_showHint -> showHint =
+                    attributes.getBoolean(attr, false)
             }
         }
         attributes.recycle()
@@ -124,7 +138,6 @@ class SearchableSpinner : androidx.appcompat.widget.AppCompatSpinner, View.OnTou
             is ContextWrapper -> scanForActivity(context.baseContext)
             else -> null
         }
-
     }
 
     /**
@@ -146,5 +159,9 @@ class SearchableSpinner : androidx.appcompat.widget.AppCompatSpinner, View.OnTou
         mCustomDialogAdapter = adapter
         if (searchDialog.isVisible) searchDialog.dismiss()
         init()
+    }
+
+    fun setSearchViewBackground(background: Drawable) {
+        mSearchViewBackground = background
     }
 }

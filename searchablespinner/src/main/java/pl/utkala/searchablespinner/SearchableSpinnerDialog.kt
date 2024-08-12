@@ -30,13 +30,15 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.DialogFragment
 import kotlinx.android.synthetic.main.dialog_layout.view.*
 
-class SearchableSpinnerDialog : DialogFragment(), SearchView.OnQueryTextListener, SearchView.OnCloseListener {
+class SearchableSpinnerDialog : DialogFragment(), SearchView.OnQueryTextListener,
+    SearchView.OnCloseListener {
     private var items: MutableList<Any?> = arrayListOf("")
     private var mListView: ListView? = null
     private var mSearchView: SearchView? = null
     private var mDismissText: String? = null
     private var mDialogTitle: String? = null
     private var mDialogBackground: Drawable? = null
+    private var mSearchViewBackground: Drawable? = null
     private var mDismissListener: DialogInterface.OnClickListener? = null
     private var mCustomAdapter: ArrayAdapter<*>? = null
     var onSearchableItemClick: OnSearchableItemClick<Any?>? = null
@@ -45,18 +47,25 @@ class SearchableSpinnerDialog : DialogFragment(), SearchView.OnQueryTextListener
         @JvmStatic
         val CLICK_LISTENER = "click_listener"
 
-        fun getInstance(items: MutableList<Any?>, dialogBackground: Drawable? = null, customAdapter: ArrayAdapter<*>? = null): SearchableSpinnerDialog {
+        fun getInstance(
+            items: MutableList<Any?>,
+            dialogBackground: Drawable? = null,
+            customAdapter: ArrayAdapter<*>? = null,
+            searchViewBackground: Drawable? = null
+        ): SearchableSpinnerDialog {
             val dialog = SearchableSpinnerDialog()
             dialog.items = items
             dialog.mDialogBackground = dialogBackground
             dialog.mCustomAdapter = customAdapter
+            dialog.mSearchViewBackground = searchViewBackground
             return dialog
         }
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         if (savedInstanceState != null) {
-            onSearchableItemClick = savedInstanceState.getSerializable(CLICK_LISTENER) as OnSearchableItemClick<Any?>
+            onSearchableItemClick =
+                savedInstanceState.getSerializable(CLICK_LISTENER) as OnSearchableItemClick<Any?>
         }
         val layoutInflater = LayoutInflater.from(activity)
         val rootView = layoutInflater.inflate(R.layout.dialog_layout, null)
@@ -65,10 +74,12 @@ class SearchableSpinnerDialog : DialogFragment(), SearchView.OnQueryTextListener
 
         val alertBuilder = AlertDialog.Builder(activity)
         alertBuilder.setView(rootView)
-        val title = if (mDialogTitle.isNullOrBlank()) getString(R.string.search_dialog_title) else mDialogTitle
+        val title =
+            if (mDialogTitle.isNullOrBlank()) getString(R.string.search_dialog_title) else mDialogTitle
         alertBuilder.setTitle(title)
 
-        val dismiss = if(mDismissText.isNullOrBlank()) getString(R.string.search_dialog_close) else mDismissText
+        val dismiss =
+            if (mDismissText.isNullOrBlank()) getString(R.string.search_dialog_close) else mDismissText
         alertBuilder.setPositiveButton(dismiss, mDismissListener)
 
         return alertBuilder.create()
@@ -79,16 +90,24 @@ class SearchableSpinnerDialog : DialogFragment(), SearchView.OnQueryTextListener
     private fun setView(rootView: View?) {
         if (rootView == null) return
 
-        listAdapter = mCustomAdapter ?: ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, items)
+        listAdapter = mCustomAdapter ?: ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_dropdown_item,
+            items
+        )
         mListView = rootView.listView
         mListView?.adapter = listAdapter
         mListView?.isTextFilterEnabled = true
         mListView?.setOnItemClickListener { _, _, position, _ ->
-            onSearchableItemClick?.onSearchableItemClicked(mListView?.adapter?.getItem(position), position)
+            onSearchableItemClick?.onSearchableItemClicked(
+                mListView?.adapter?.getItem(position),
+                position
+            )
             dialog?.dismiss()
         }
 
         mSearchView = rootView.searchView
+        mSearchView?.background = mSearchViewBackground
         mSearchView?.setOnQueryTextListener(this)
         mSearchView?.setOnCloseListener(this)
         mSearchView?.clearFocus()
@@ -123,7 +142,11 @@ class SearchableSpinnerDialog : DialogFragment(), SearchView.OnQueryTextListener
         dismiss()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         if (mDialogBackground != null) {
             dialog?.window?.setBackgroundDrawable(mDialogBackground);
         }

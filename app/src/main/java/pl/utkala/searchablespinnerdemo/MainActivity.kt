@@ -16,6 +16,7 @@
 
 package pl.utkala.searchablespinnerdemo
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
@@ -25,13 +26,29 @@ import pl.utkala.searchablespinner.StringHintArrayAdapter
 
 class MainActivity : AppCompatActivity() {
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val users = listOf("John Doe", "Ellen Cunningham", "Carmen Walker", "Mike Walker", "Edgar Bourn", "Richard Robson", "Ralph Poe", "Max Smith")
+        val users = listOf(
+            "John Doe",
+            "Ellen Cunningham",
+            "Carmen Walker",
+            "Mike Walker",
+            "Edgar Bourn",
+            "Richard Robson",
+            "Ralph Poe",
+            "Max Smith"
+        )
         searchableSpinner.showHint = true
-        searchableSpinner.adapter = StringHintArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, users, "Select Item")
+        searchableSpinner.setSearchViewBackground(resources.getDrawable(R.drawable.shape_rectangle_radius_light_black))
+        searchableSpinner.adapter = StringHintArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_dropdown_item,
+            users,
+            "Select Item"
+        )
         searchableSpinner.onSearchableItemClick = object : OnSearchableItemClick<Any?> {
             override fun onSearchableItemClicked(item: Any?, position: Int) {
                 if (position > 0) {
@@ -42,6 +59,12 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        searchableSpinner.setCustomDialogAdapter(StartWithArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, users))
+        searchableSpinner.setCustomDialogAdapter(
+            StartWithArrayAdapter(
+                this,
+                android.R.layout.simple_spinner_dropdown_item,
+                users
+            )
+        )
     }
 }

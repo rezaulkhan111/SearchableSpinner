@@ -11,19 +11,17 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
         android:layout_gravity="center_horizontal"
+        android:layout_margin="16dp"
         android:text="@string/app_name" />
 
     <pl.utkala.searchablespinner.SearchableSpinner
         android:id="@+id/searchableSpinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
         android:layout_gravity="center_horizontal"
-
-        app:showHint="true"
+        android:layout_margin="16dp"
         app:closeText="@string/search_dialog_close"
-        app:dialogTitle="@string/search_dialog_title" />
-
+        app:dialogTitle="@string/search_dialog_title"
+        app:showHint="true" />
 </LinearLayout>
