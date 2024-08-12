@@ -23,7 +23,7 @@ Step 2. Add the dependency
 
 ```gradle
     dependencies {
-        implementation 'com.github.DonMat:searchablespinner:v1.0.1'
+     implementation 'com.github.rezaulkhan111:SearchableSpinner:1.0.2'
     }
 ```
 
@@ -99,6 +99,8 @@ searchableSpinner.setCustomDialogAdapter(T:ArrayList<*>)
 ```
 
 # Changelog
+* **1.0.2**
+  * Add Search Box background
 
 * **1.1.0**
   * Add hint for spinner
