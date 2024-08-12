@@ -161,7 +161,7 @@ class SearchableSpinner : androidx.appcompat.widget.AppCompatSpinner, View.OnTou
         init()
     }
 
-    fun setSearchViewBackground(background: Drawable) {
+    fun setSearchBoxBackground(background: Drawable) {
         mSearchViewBackground = background
     }
 }

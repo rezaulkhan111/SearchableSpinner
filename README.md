@@ -82,6 +82,14 @@ You can set your own dialog background passing _Drawable_ to **setDialogBackgrou
 searchableSpinner.setDialogBackground(ColorDrawable(Color.RED))
 ```
 
+## Change search box background color
+
+You can set your own search box background passing _Drawable_ to **setSearchBoxBackground**
+
+```java
+searchableSpinner.setSearchBoxBackground(ColorDrawable(Color.RED))
+```
+
 ## Set custom dialog adapter
 
 You can set your own list adapter. It can be used to add custom filters or custom list item views.

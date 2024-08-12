@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
             "Max Smith"
         )
         searchableSpinner.showHint = true
-        searchableSpinner.setSearchViewBackground(resources.getDrawable(R.drawable.shape_rectangle_radius_light_black))
+        searchableSpinner.setSearchBoxBackground(resources.getDrawable(R.drawable.shape_rectangle_radius_light_black))
         searchableSpinner.adapter = StringHintArrayAdapter(
             this,
             android.R.layout.simple_spinner_dropdown_item,
